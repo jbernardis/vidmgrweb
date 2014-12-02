@@ -1,0 +1,14 @@
+<project default="install" name="VidMgrWeb">
+	<property name="stagedir" location="//Netgear/Stage/" />
+	<target name="install" description="copy resources and executables to destination directory">
+		<copy todir="${stagedir}/VidMgrWeb">
+			<fileset dir="${basedir}/src" includes="*.py" />
+			<fileset dir="${basedir}" includes="Makefile" />
+			<fileset dir="${basedir}" includes="GetVMMap" />
+		</copy>
+		<copy todir="${stagedir}/VidMgrWeb/images">
+			<fileset dir="${basedir}/src/images" includes="*.png" />
+		</copy>
+	</target>
+</project>
+
