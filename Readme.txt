@@ -43,3 +43,19 @@ Alias "/My_Recorded_TV" "/c/media/Videos/TV"
 </Location>
 
 
+
+In addition to the web server configuration, there are w few options you can set in lconfig.py.  Bear in mind that when you are changing values in this file,
+you are actually changing python source code, so python syntax should be adhered to.  Just follow the examples in the file
+
+HMEDIR is a string that is set to the directory where you have HME installed.  Note this is the HME directory, not the vidmgr directory.  It is assumed that
+vidmgr will be a subdirectory of the directory specified here
+
+HOMELINK and HOMELABEL are used to link this CGI script into any other web sites you may have.  HOMELINK is the relative path to where this applicaiton will
+go when you exit.  If you set this to None (without quotes) no home link will appear on the page.  HOMELABEL is the text that will appear in the link.
+
+TITLE is the title text that goes on the top of the pages.
+
+The remaining options are all for security purposes - for restricting pushing and/or deleting to specified IP addresses or subnets.  The comments in the file explain
+how these fields are used.
+
+
