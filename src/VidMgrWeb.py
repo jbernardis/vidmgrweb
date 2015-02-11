@@ -11,13 +11,16 @@ import ipaddr
 
 
 import HTML
+import time
 import re
 import cgi
 import os
 import urllib
 import marshal
-import subprocess
+import subprocess 
+import shutil
 from TivoConfig import TivoConfig
+
 
 if os.path.sep == '/':
 	quote = urllib.quote
@@ -28,6 +31,8 @@ else:
 
 MAPFILE = "VMMap.dat"
 CACHEFILE = HMEDIR + "/vidmgr/video.cache"
+artdir = "artwork"
+clientAddress = os.environ["REMOTE_ADDR"]
 
 SCRIPTNAME = "VidMgrWeb.py"
 
@@ -111,6 +116,22 @@ def parentName(s):
 	
 	return s.split('/')[-1]
 
+def copyArtwork(artfn):
+	if not os.path.exists(artdir):
+		os.makedirs(artdir)
+
+	now = time.time()
+	for file in os.listdir(artdir):
+		fn = os.path.join(artdir, file)
+		if os.path.isfile(fn):
+			ftime = os.path.getmtime(fn)
+			if now - ftime > 300:
+				os.unlink(fn)
+	
+	fn = os.path.join(artdir, "tmp%s.jpg" % clientAddress)			
+	shutil.copyfile(artfn, fn)
+	return fn
+
 def removeFiles(path, fn):
 	fullname =os.path.join(path, fn)
 	for f in [ fullname,
@@ -130,7 +151,6 @@ def removeFiles(path, fn):
 
 #####################################################################################################
 
-clientAddress = os.environ["REMOTE_ADDR"]
 form = cgi.FieldStorage()
 
 vTags = {'vActor' : "Actor(s): ",
@@ -349,9 +369,10 @@ if video != "":
 		)
 		bx = 1 - bx
 		
-	if 'image' in item:
+	if 'imagefn' in item:
+		fn = copyArtwork(item['imagefn'])
 		trs += HTML.tr({'bgcolor': bgs[bx]},
-			HTML.td({'style': 'text-align: center', 'colspan': "2"}, HTML.img({'src': item['image']}))
+			HTML.td({'style': 'text-align: center', 'colspan': "2"}, HTML.img({'src': fn}))
 		)
 		bx = 1 - bx
 		

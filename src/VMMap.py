@@ -91,12 +91,7 @@ def Descend(node, opts, parent, path):
 			va = {'type': vtype, 'text': item.formatDisplayText(dopt), 'path': item.getFullPath(), 'meta': item.getMeta(), 'candelete': canDelete}
 			fn = getThumb(lopts, item.getPath(), item.getFileName(), item.isDVDVideo())
 			if fn:
-				shr = item.getShare()
-				if shr:
-					pfx = sharemap[shr]
-					if fn.startswith(pfx):
-						va["image"] =  '/' + shr.replace(' ', '_') + fn[len(pfx):]
-						counts[shr] += 1
+				va["imagefn"] =  fn
 			lmap.append(va)
 	
 		else:
@@ -134,19 +129,4 @@ else:
 		print "Error saving cache"
 	else:
 		f.close()
-
-if verbose:
-	print "Apache Configuration:"
-	for s in sharemap.keys():
-		if counts[s] == 0:
-			continue 
-	
-		shr = s.replace(' ', '_')
-		print "Alias \"/" + shr + "\" \"" + sharemap[s] + "\""
-		print "<Location \"/" + shr + "\">"
-		print "  Options Indexes"
-		print "  Order allow,deny"
-		print "  Allow from all"
-		print "</Location>"
-		print ""
 
