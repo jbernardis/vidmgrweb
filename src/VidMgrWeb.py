@@ -169,7 +169,7 @@ if 'video' in form:
 
 print HTML.HTTPHeader()
 print HTML.starthtml({'xmlns': "http://www.w3.org/1999/xhtml"})
-print HTML.head(HTML.title('VidMgr Cache'))
+print HTML.head(HTML.title(TITLE), HTML.link({'rel': "SHORTCUT ICON", 'href': "images/vidmgrweb.ico"}))
 print HTML.startbody({'bgcolor': HTML.Color.RGB(250, 242, 210)})
 
 if not secureClient(clientAddress, READONLYCLIENTS, READONLYSUBNETS):
